@@ -339,3 +339,173 @@ nav a.active {
     transition: 0.3s;
   }
   .btn-see:hover { background-color: #fff; }
+
+  /* =========================================
+     SECCIÓN BEST SELLERS (NUEVA)
+     ========================================= */
+  .best-sellers-section {
+    width: 100%;
+    background-color: var(--c-yellow); /* Fondo mostaza/amarillo */
+    padding: 80px 5%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .best-sellers-section .section-header h2 {
+    color: white; /* Título en blanco */
+    border-bottom: 3px solid white; /* Subrayado en blanco */
+    display: inline-block;
+    padding-bottom: 10px;
+  }
+
+  /* GRID COLLAGE */
+  .collage-grid {
+    display: grid;
+    /* Creamos una rejilla flexible con muchas columnas pequeñas para permitir tamaños complejos */
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    grid-auto-rows: 150px; /* Altura base de filas */
+    grid-auto-flow: dense; /* IMPORTANTE: Rellena huecos vacíos */
+    gap: 10px; /* Espacio pequeño tipo collage */
+    width: 100%;
+    max-width: 1400px;
+  }
+
+  .collage-item {
+    position: relative;
+    overflow: hidden;
+    background: #000;
+  }
+
+  .collage-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+
+  .collage-item:hover img {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+
+  /* Tamaños especiales para el collage */
+  .collage-item.big {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+  
+  .collage-item.wide {
+    grid-column: span 2;
+  }
+
+  .collage-item.tall {
+    grid-row: span 2;
+  }
+
+  /* =========================================
+     SECCIÓN MONTHLY DEALS (PUERCOESPÍN)
+     ========================================= */
+  .monthly-deals-section {
+    width: 100%;
+    background-color: var(--bg-dark);
+    padding: 100px 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+    flex-wrap: wrap; /* Para que se adapte a móvil */
+  }
+
+  /* Imagen del Puercoespín */
+  .hedgehog-img {
+    width: 350px;
+    height: auto;
+    object-fit: contain;
+  }
+
+  /* Tarjeta de "Monthly Deals" Estilo Retro */
+  .deals-card {
+    background-color: #e3a643; /* Color mostaza */
+    border: 3px solid #1a1a1a;
+    border-radius: 20px;
+    padding: 40px 60px;
+    text-align: center;
+    position: relative;
+    
+    /* Efecto de capas/sombra sólida */
+    box-shadow: 
+      10px 10px 0px #521519, /* Capa roja */
+      20px 20px 0px #365f6b; /* Capa azul/teal */
+  }
+
+  .deals-card h3 {
+    font-family: "M PLUS Code Latin";
+    font-size: 2.5rem;
+    text-transform: uppercase;
+    color: #1a1a1a;
+    line-height: 1.2;
+    font-weight: 500;
+  }
+
+  /* =========================================
+     FOOTER FINAL
+     ========================================= */
+  .main-footer {
+    width: 100%;
+    background-color: var(--c-yellow); /* Mismo amarillo que el deals card o un poco más oscuro */
+    padding: 20px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto; /* Empuja el footer al final */
+  }
+
+  .footer-socials {
+    display: flex;
+    gap: 15px;
+  }
+
+  .social-icon {
+    width: 24px;
+    height: 24px;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  .social-icon:hover { transform: scale(1.1); }
+
+  .footer-links {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .footer-links a {
+    text-decoration: none;
+    color: white; /* O un gris suave */
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.9rem;
+  }
+
+  .footer-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .lang-selector {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.9rem;
+    cursor: pointer;
+  }
+
+  .footer-logo {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    filter: brightness(0) invert(1); /* Hace el logo blanco */
+  }

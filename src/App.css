@@ -1,0 +1,328 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+Code+Latin:wght@100..700&display=swap');
+
+:root {
+  --bg-dark: #161616;
+  --bg-light: #fae8b6;
+  --c-teal: #365f6b;
+  --c-red: #521519;
+  --c-yellow: #e3a643;
+  --c-tan: #c4a366;
+  --c-footer: #bfa065;
+  --text-gold: #e3a643;
+  --text-white: #ffffff;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Oswald', sans-serif;
+  overflow-x: hidden;
+  background-color: var(--bg-dark);
+}
+
+/* --- WRAPPER PRINCIPAL --- */
+  /* Este contenedor permite que las secciones se apilen verticalmente */
+  .app-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+.container {
+  position: relative;
+  width: 1920px;
+  height: 100vh;
+  display: flex;
+  overflow: hidden;
+}
+
+/* --- LADO IZQUIERDO (OSCURO) --- */
+.left-side {
+  width: 50%;
+  background-color: var(--bg-dark);
+  color: var(--text-white);
+  padding: 40px 60px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 10;
+}
+
+/* Header & Nav */
+header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 80px;
+}
+
+.logo {
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 50px;
+}
+
+nav ul {
+  display: flex;
+  list-style: none;
+  gap: 30px;
+}
+
+nav a {
+  text-decoration: none;
+  color: white;
+  font-weight: 500;
+  font-size: 1.8rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+nav a.active {
+  color: var(--text-gold);
+}
+
+/* Hero Text */
+.hero-content h1 {
+  font-size: 5rem;
+  font-family: "M PLUS Code Latin";
+  line-height: 1.1;
+  text-transform: uppercase;
+  font-weight: 400;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+}
+
+.underline {
+  width: 150px;
+  height: 4px;
+  background-color: var(--c-footer);
+  margin-bottom: 30px;
+}
+
+.hero-content p {
+  font-family: Poppins;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #cccccc;
+  max-width: 450px;
+  font-weight: 300;
+}
+
+/* --- LADO DERECHO (CLARO) --- */
+.right-side {
+  width: 45%;
+  background-color: var(--bg-light);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.top-right-icons {
+  padding: 40px 60px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.search-icon {
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #333;
+}
+
+.vertical-text {
+  position: absolute;
+  right: 160px;
+  top: 40%;
+  transform: translateY(-40%) rotate(180deg);
+  writing-mode: vertical-rl;
+  text-transform: uppercase;
+  font-size: 3rem;
+  font-family: "M PLUS Code Latin";
+  letter-spacing: 2px;
+  color: #000;
+}
+
+/* --- LAS FRANJAS DIAGONALES --- */
+.stripes-container {
+  position: absolute;
+  top: 0;
+  left: 40%; /* Ajustar para centrar el corte */
+  height: 100%;
+  display: flex;
+  transform: skewX(-20deg); /* La inclinación clave */
+  z-index: 15;
+  pointer-events: none; /* Dejar que los clics pasen */
+}
+
+.stripe {
+  height: 100%;
+}
+
+.stripe.teal { width: 90px; background-color: var(--c-teal); }
+.stripe.red { width: 90px; background-color: var(--c-red); }
+.stripe.yellow { width: 90px; background-color: var(--c-yellow); }
+.stripe.tan { width: 90px; background-color: var(--c-tan); }
+
+/* --- EL DISCO DE VINILO (CSS PURO) --- */
+.vinyl-record {
+  position: absolute;
+  top: 50%;
+  left: -30px; /* Para que quede parcialmente oculto por las franjas */
+  transform: translateY(-60%);
+  width: 550px;
+  height: 550px;
+  border-radius: 50%;
+  background: 
+    radial-gradient(circle at center, #d4b675 0%, #d4b675 25%, #111 26%, #111 27%, #222 28%, #111 30%, #222 32%, #111 34%, #222 36%, #111 38%, #222 40%, #111 45%, #000 100%);
+  box-shadow: 10px 10px 30px rgba(0,0,0,0.3);
+  z-index: 2; /* Detrás de las franjas, sobre el fondo beige */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* El agujero central del disco */
+.vinyl-record::after {
+  content: '';
+  width: 15px;
+  height: 15px;
+  background-color: #f5f5f5; /* Color blanco/plata del tornillo */
+  border-radius: 50%;
+  border: 1px solid #aaa;
+}
+
+/* --- FOOTER INFERIOR --- */
+.footer-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 80px; /* Altura de la barra marrón abajo */
+  background-color: var(--c-footer);
+  z-index: 20;
+}
+
+/* --- SECCIÓN 2: NEW ARRIVALS (Vidrio / Glassmorphism) --- */
+  .new-arrivals-section {
+    width: 1920px;
+    background-color: var(--bg-dark);
+    padding: 100px 10%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 30;
+  }
+
+  .section-header { text-align: center; margin-bottom: 80px; }
+  .section-header h2 {
+    font-family: "M PLUS Code Latin";
+    font-size: 3.5rem;
+    color: var(--c-yellow);
+    text-transform: uppercase;
+    font-weight: 400;
+    letter-spacing: 3px;
+    margin-bottom: 10px;
+  }
+  .section-underline {
+    width: 100%;
+    height: 3px;
+    background-color: var(--c-yellow);
+    margin: 0 auto;
+    max-width: 300px;
+  }
+
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 60px;
+    width: 100%;
+  }
+
+  .product-card {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* EFECTO VIDRIO / GLASSMORPHISM */
+  .glass-card {
+    /* Fondo blanco muy transparente */
+    background: rgba(255, 255, 255, 0.05);
+    /* Desenfoque del fondo */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    /* Borde sutil */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    /* Sombra suave */
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+    
+    border-radius: 20px;
+    width: 100%;
+    height: 280px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .glass-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px 0 rgba(0, 0, 0, 0.5);
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+
+  .glass-card img {
+    max-width: 85%;
+    max-height: 85%;
+    object-fit: contain;
+    /* Sombra para el objeto dentro del vidrio */
+    filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5));
+  }
+
+  .card-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 0 5px;
+  }
+
+  .card-text h3 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.1rem;
+    color: #ddd;
+    margin-bottom: 5px;
+    font-weight: 300;
+  }
+  .price {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.3rem;
+    color: var(--c-yellow);
+  }
+
+  .btn-see {
+    background-color: var(--c-yellow);
+    border: none;
+    padding: 8px 24px;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #111;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  .btn-see:hover {
+    background-color: #fff;
+  }

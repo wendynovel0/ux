@@ -91,6 +91,10 @@ nav a {
   letter-spacing: 1px;
 }
 
+nav a:hover {
+  color: var(--text-gold);
+}
+
 nav a.active {
   color: var(--text-gold);
 }

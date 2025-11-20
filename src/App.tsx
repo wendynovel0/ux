@@ -7,7 +7,7 @@ import imgProd3 from './assets/64bafcc5-493d-4149-ae02-1fdde1098dad.png'
 import imgProd4 from './assets/7da44c53-0ed5-4118-8e91-01453464d4b7.png'
 import imgProd5 from './assets/bc082269-92f8-4d39-878a-ed2ddf2763c7.png'
 import imgProd6 from './assets/e6e506e7-fe71-442d-a88a-4184d5c31144.png'
-import hedgehogImg from './assets/Erizo Musical.svg'; 
+import hedgehogImg from './assets/Group 8.png'; 
 
 const products = [
   { id: 1, name: 'Victrola Clásico', price: '$1,227', image: imgProd1 },
@@ -146,7 +146,7 @@ const App = () => {
           <img src={hedgehogImg} alt="Hedgehog DJ" className="hedgehog-img" />
           
           <div className="deals-card">
-            <h3>Monthly<br />Deals</h3>
+            <h3>20% off the <br></br>entire store</h3>
           </div>
         </div>
 

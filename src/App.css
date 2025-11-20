@@ -24,12 +24,17 @@ body {
   font-family: 'Oswald', sans-serif;
   overflow-x: hidden;
   background-color: var(--bg-dark);
+  overflow: auto;
+}
+
+body::-webkit-scrollbar {
+  display: none;
 }
 
 /* --- WRAPPER PRINCIPAL --- */
   /* Este contenedor permite que las secciones se apilen verticalmente */
   .app-wrapper {
-    width: 100%;
+    width: 1366px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -37,7 +42,7 @@ body {
 
 .container {
   position: relative;
-  width: 1920px;
+  width: 1705px;
   height: 100vh;
   display: flex;
   overflow: hidden;
@@ -119,7 +124,7 @@ nav a.active {
 
 /* --- LADO DERECHO (CLARO) --- */
 .right-side {
-  width: 45%;
+  width: 50%;
   background-color: var(--bg-light);
   position: relative;
   display: flex;
@@ -206,15 +211,17 @@ nav a.active {
   position: absolute;
   bottom: 0;
   left: 0;
-  width: 100%;
+  width: 1920px;
   height: 80px; /* Altura de la barra marrón abajo */
   background-color: var(--c-footer);
   z-index: 20;
 }
 
-/* --- SECCIÓN 2: NEW ARRIVALS (Vidrio / Glassmorphism) --- */
+/* =========================================
+     SECCIÓN NEW ARRIVALS (AJUSTES PARA LA TARJETA)
+     ========================================= */
   .new-arrivals-section {
-    width: 1920px;
+    width: 100%;
     background-color: var(--bg-dark);
     padding: 100px 10%;
     display: flex;
@@ -250,79 +257,85 @@ nav a.active {
   }
 
   .product-card {
+    background: #1a1a1a; /* Fondo oscuro sólido */
+    border-radius: 15px;
+    padding: 25px;
+    position: relative;
+    
+    /* --- CLAVE PARA EL EFECTO "SALIRSE" --- */
+    overflow: visible !important; /* Fuerza que la imagen no se corte */
+    
+    height: 250px; /* Altura fija de la tarjeta negra */
     display: flex;
     flex-direction: column;
+    justify-content: flex-end; /* Empuja texto al fondo */
+    box-shadow: 0 15px 25px rgba(0,0,0,0.4);
+    transition: transform 0.3s ease;
   }
 
-  /* EFECTO VIDRIO / GLASSMORPHISM */
-  .glass-card {
-    /* Fondo blanco muy transparente */
-    background: rgba(255, 255, 255, 0.05);
-    /* Desenfoque del fondo */
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    /* Borde sutil */
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    /* Sombra suave */
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
-    
-    border-radius: 20px;
-    width: 100%;
-    height: 280px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 20px;
-    position: relative;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-
-  .glass-card:hover {
+  .product-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 15px 40px 0 rgba(0, 0, 0, 0.5);
-    border-color: rgba(255, 255, 255, 0.3);
+    z-index: 10;
   }
 
-  .glass-card img {
-    max-width: 85%;
-    max-height: 85%;
+  /* IMAGEN FLOTANTE */
+  .product-card img {
+    position: absolute;
+    top: 0; /* Punto de anclaje: borde superior de la tarjeta */
+    left: 50%; /* Punto de anclaje: centro horizontal */
+    
+    /* Mueve la imagen: 50% a la izquierda (centrar) y 50% ARRIBA (para que sobresalga la mitad) */
+    transform: translate(-50%, -30%);
+    
+    width: 100%; /* Ancho generoso */
+    max-width: 230px; /* Limite para que no sea gigante */
+    height: auto;
     object-fit: contain;
-    /* Sombra para el objeto dentro del vidrio */
-    filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5));
+    
+    z-index: 20; /* Asegura que esté encima de la tarjeta */
+    filter: drop-shadow(0 25px 25px rgba(0,0,0,0.6)); /* Sombra realista bajo el objeto */
+    transition: transform 0.3s ease;
+  }
+
+  .product-card:hover img {
+    /* Al hacer hover, sube un poquito más y crece */
+    transform: translate(-50%, -35%) scale(1.08);
   }
 
   .card-info {
+    position: relative; /* Para que esté sobre la imagen si se solapan */
+    z-index: 2;
     display: flex;
     justify-content: space-between;
-    align-items: flex-end;
-    padding: 0 5px;
+    align-items: center; /* Alinea texto y botón */
+    margin-top: auto; /* Empuja el contenido al final de la tarjeta */
+    padding-top: 30px; /* Espacio para que la imagen no lo tape */
   }
 
   .card-text h3 {
     font-family: 'Poppins', sans-serif;
-    font-size: 1.1rem;
-    color: #ddd;
+    font-size: 1.3rem; /* Tamaño de fuente un poco más grande */
+    color: #e0e0e0;
     margin-bottom: 5px;
-    font-weight: 300;
+    font-weight: 400;
   }
   .price {
     font-family: 'Oswald', sans-serif;
-    font-size: 1.3rem;
+    font-size: 1.5rem; /* Precio más grande */
     color: var(--c-yellow);
+    font-weight: 500;
   }
 
   .btn-see {
     background-color: var(--c-yellow);
     border: none;
-    padding: 8px 24px;
+    padding: 10px 30px; /* Botón un poco más grande */
     font-family: 'Oswald', sans-serif;
     font-weight: 600;
-    font-size: 0.9rem;
+    font-size: 1rem;
     color: #111;
-    border-radius: 4px;
+    border-radius: 8px; /* Más redondeado */
     cursor: pointer;
     transition: 0.3s;
   }
-  .btn-see:hover {
-    background-color: #fff;
-  }
+  .btn-see:hover { background-color: #fff; }

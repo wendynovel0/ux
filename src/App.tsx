@@ -2,14 +2,20 @@ import React from 'react';
 import './App.css';
 import logoEMW from'./assets/c11e5f44-4776-4d93-bd44-cc4b5ccb5bae.svg'
 import { Search } from 'lucide-react'; // Asegúrate de instalar: npm install lucide-react
+import imgProd1 from './assets/1a7953e1-19a0-4380-85e7-f6977e243ef6.png'
+import imgProd2 from './assets/55de2da4-09dd-4a7d-bc1f-33dfd06f2271.png'
+import imgProd3 from './assets/64bafcc5-493d-4149-ae02-1fdde1098dad.png'
+import imgProd4 from './assets/7da44c53-0ed5-4118-8e91-01453464d4b7.png'
+import imgProd5 from './assets/bc082269-92f8-4d39-878a-ed2ddf2763c7.png'
+import imgProd6 from './assets/e6e506e7-fe71-442d-a88a-4184d5c31144.png'
 
 const products = [
-  { id: 1, name: 'Victrola Clásico', price: '$1,227', image: 'https://placehold.co/300x200/8ecae6/FFF?text=Victrola+Blue' },
-  { id: 2, name: 'Kedok Tocadiscos', price: '$1,659', image: 'https://placehold.co/300x200/5c3a21/FFF?text=Kedok+Wood' },
-  { id: 3, name: 'Victrola Clásico', price: '$1,227', image: 'https://placehold.co/300x200/161616/FFF?text=Victrola+Black' },
-  { id: 4, name: 'Crosley', price: '$1,551', image: 'https://placehold.co/300x200/a3c4d9/FFF?text=Crosley+Blue' },
-  { id: 5, name: 'JORLAI', price: '$1,873', image: 'https://placehold.co/300x200/ffb7b2/FFF?text=JORLAI+Pink' },
-  { id: 6, name: 'Crosley', price: '$1,643', image: 'https://placehold.co/300x200/222/FFF?text=Crosley+Black' },
+  { id: 1, name: 'Victrola Clásico', price: '$1,227', image: imgProd1 },
+  { id: 2, name: 'Kedok Tocadiscos', price: '$1,659', image: imgProd2 },
+  { id: 3, name: 'Victrola Clásico', price: '$1,227', image: imgProd3 },
+  { id: 4, name: 'Crosley', price: '$1,551', image: imgProd4 },
+  { id: 5, name: 'JORLAI', price: '$1,873', image: imgProd5 },
+  { id: 6, name: 'Crosley', price: '$1,643', image: imgProd6 },
 ];
 
 const App = () => {

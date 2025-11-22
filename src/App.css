@@ -2,6 +2,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=M+PLUS+Code+Latin:wght@100..700&display=swap');
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+html{
+  scroll-behavior: smooth;
+}
+
+/* ANIMACIONES */
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  .animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
+  .reveal-text { display: inline-block; animation: fadeIn 0.8s ease-out forwards; }
+
 :root {
   --bg-dark: #161616;
   --bg-light: #fae8b6;
@@ -34,7 +48,7 @@ body::-webkit-scrollbar {
 /* --- WRAPPER PRINCIPAL --- */
   /* Este contenedor permite que las secciones se apilen verticalmente */
   .app-wrapper {
-    width: 1366px;
+    width: 1700px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -80,6 +94,7 @@ nav ul {
   display: flex;
   list-style: none;
   gap: 30px;
+  cursor: pointer;
 }
 
 nav a {
@@ -513,3 +528,63 @@ nav a.active {
     object-fit: contain;
     filter: brightness(0) invert(1); /* Hace el logo blanco */
   }
+  
+  /* === ESTILOS NUEVOS DE CATÁLOGO === */
+  .catalogue-hero { width:1700px;display: flex; justify-content: space-between; align-items: center; padding: 150px 5% 50px 5%; flex-wrap: wrap; gap: 40px; }
+  .cat-hero-text h1 { font-family: "M PLUS Code Latin"; font-size: 4rem; line-height: 1.1; text-transform: uppercase; margin-bottom: 20px; margin-top:-320px;}
+  .cat-hero-text p { font-family: 'Poppins'; color: #ccc; max-width: 500px; margin-bottom: 30px; }
+  .cat-search-bar { display: flex; gap: 10px; background: #222; padding: 5px; border-radius: 50px; max-width: 400px; border: 1px solid #333; }
+  .cat-search-bar input { background: transparent; border: none; color: white; padding: 10px 20px; flex: 1; outline: none; font-family: 'Poppins'; }
+  .cat-search-bar button { background: var(--c-yellow); border: none; padding: 10px 25px; border-radius: 50px; font-weight: 600; cursor: pointer; }
+  .cat-stats { display: flex; gap: 40px; margin-top: 30px; } 
+  .cat-stats h3 { font-size: 2rem; margin: 0; color: var(--text-gold); } .cat-stats span { font-family: 'Poppins'; font-size: 0.8rem; color: #888; }
+  
+  .cat-hero-card-visual { position: relative; }
+  .glass-card-hero { width: 300px; height: 400px; background: #1a1a1a; border-radius: 20px; overflow: hidden; border: 1px solid #333; box-shadow: 0 20px 50px rgba(0,0,0,0.5); position: relative; }
+  .glass-card-hero img { width: 100%; height: 100%; object-fit: cover; }
+  .glass-info { position: absolute; bottom: 20px; left: 20px; right: 20px; background: rgba(0,0,0,0.6); backdrop-filter: blur(10px); padding: 15px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1); }
+  .glass-price { display: flex; justify-content: space-between; margin-top: 5px; font-size: 0.9rem; color: var(--c-yellow); }
+
+  .category-scroll { display: flex; gap: 15px; overflow-x: auto; padding: 20px 5%; scrollbar-width: none; }
+  .cat-pill { background: transparent; border: 1px solid #444; color: #ccc; padding: 10px 25px; border-radius: 50px; cursor: pointer; white-space: nowrap; transition: 0.3s; font-family: 'Poppins'; }
+  .cat-pill:hover, .cat-pill.active { background: white; color: black; border-color: white; }
+
+  .cat-section { padding: 40px 5%; margin-bottom: 40px; }
+  .section-header-row { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 30px; }
+  .section-header-row h2 { font-family: "M PLUS Code Latin"; font-size: 2rem; margin: 0; }
+  
+  .featured-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 30px; }
+  .nft-card { background: #1a1a1a; border-radius: 20px; overflow: hidden; cursor: pointer; transition: 0.3s; border: 1px solid #333; }
+  .nft-card:hover { transform: translateY(-5px); border-color: var(--c-yellow); }
+  .nft-image-box { height: 250px; width: 100%; background: #222; overflow: hidden; }
+  .nft-image-box img { width: 100%; height: 100%; object-fit: cover; }
+  .nft-info { padding: 20px; }
+  .nft-info h3 { font-family: 'Poppins'; margin: 0 0 5px 0; font-size: 1.1rem; }
+  .nft-footer { display: flex; justify-content: space-between; padding-top: 15px; border-top: 1px solid #333; color: var(--c-yellow); }
+
+  .top-list-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+  .top-list-item { display: flex; align-items: center; gap: 15px; background: #1a1a1a; padding: 15px; border-radius: 12px; cursor: pointer; transition: 0.2s; border: 1px solid transparent; }
+  .top-list-item:hover { border-color: #444; background: #222; }
+  .rank-number { font-weight: bold; color: #666; width: 20px; }
+  .list-img-wrapper { position: relative; width: 60px; height: 60px; border-radius: 10px; overflow: hidden; }
+  .list-img-wrapper img { width: 100%; height: 100%; object-fit: cover; }
+  .verified-badge { position: absolute; bottom: 0; right: 0; background: var(--c-yellow); color: black; width: 14px; height: 14px; font-size: 10px; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
+  .list-info h4 { margin: 0; font-family: 'Poppins'; font-size: 1rem; }
+  .floor-price { font-size: 0.8rem; color: #888; }
+  .text-green { color: #4caf50; font-size: 0.85rem; }
+
+  /* === DETALLE PRODUCTO === */
+  .back-btn { background: transparent; border: none; color: #aaa; display: flex; align-items: center; gap: 10px; font-family: 'Poppins'; cursor: pointer; margin-bottom: 20px; }
+  .product-detail-container { display: flex; gap: 50px; flex-wrap: wrap; min-height: 70vh; align-items: center; }
+  .detail-image-section { flex: 1; min-width: 300px; display: flex; justify-content: center; }
+  .main-detail-img { width: 100%; max-width: 500px; aspect-ratio: 1/1; background: #1a1a1a; border-radius: 20px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+  .main-detail-img img { max-width: 80%; max-height: 80%; object-fit: contain; filter: drop-shadow(0 20px 40px rgba(0,0,0,0.5)); }
+  .detail-info-section { flex: 1; min-width: 300px; }
+  .detail-header { display: flex; justify-content: space-between; margin-bottom: 10px; }
+  .detail-category { background: #333; color: #ccc; padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; }
+  .detail-info-section h1 { font-family: "M PLUS Code Latin"; font-size: 3.5rem; margin: 10px 0; }
+  .detail-price-box { display: flex; align-items: baseline; gap: 20px; margin-bottom: 30px; }
+  .current-price { font-size: 2.5rem; font-family: 'Oswald'; color: var(--c-yellow); }
+  .purchase-actions { display: flex; gap: 20px; margin-bottom: 40px; }
+  .btn-buy-now { flex: 1; background: var(--c-yellow); color: black; border: none; padding: 15px; border-radius: 10px; font-family: 'Oswald'; cursor: pointer; }
+  .btn-add-cart { flex: 1; background: transparent; color: white; border: 2px solid #444; padding: 15px; border-radius: 10px; font-family: 'Oswald'; cursor: pointer; display: flex; align-items: center; justify-content: center; }

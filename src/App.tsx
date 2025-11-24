@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { useEffect, useMemo, useRef, useCallback, useState } from 'react';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
+import { useGesture } from '@use-gesture/react';
 import { 
   Search, Facebook, Youtube, Twitter, Instagram, Globe, 
   ArrowLeft, Heart, Disc, Mic2, Radio, ArrowRight, ChevronRight, 
@@ -15,6 +16,9 @@ import imgProd4 from './assets/7da44c53-0ed5-4118-8e91-01453464d4b7.png'
 import imgProd5 from './assets/bc082269-92f8-4d39-878a-ed2ddf2763c7.png'
 import imgProd6 from './assets/e6e506e7-fe71-442d-a88a-4184d5c31144.png'
 import hedgehogImg from './assets/Group 8.png'; 
+import './DomeGallery.css';
+import DomeGallery from './DomeGallery';
+import TextType from './TextType';
 
 
 // --- PLACEHOLDERS ---
@@ -22,6 +26,13 @@ const studioImg = "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?
 const vinylImg = "https://images.unsplash.com/photo-1603048588665-791ca8deb5e7?q=80&w=1000&auto=format&fit=crop";
 
 // --- TIPOS ---
+
+interface VinylProduct {
+  id: number;
+  title: string;
+  img: string;
+  price: string;
+}
 interface Product {
   id: number;
   name?: string;
@@ -70,44 +81,30 @@ const products = [
   { id: 6, name: 'Crosley', price: '$1,643', image: imgProd6, description: 'La opción robusta para el coleccionista serio.' },
 ];
 
-const bestSellers = [
-    // --- BLOQUE 1 ---
-    { id: 1, title: 'Ray Charles', img: 'https://m.media-amazon.com/images/I/61n2vSsWpFL._UF1000,1000_QL80_.jpg', size: 'big', price: '$850' },
-    { id: 2, title: 'Hozier', img: 'https://m.media-amazon.com/images/I/81bOMm6FSjL._UF1000,1000_QL80_.jpg', size: 'normal', price: '$720' },
-    { id: 3, title: 'The Weeknd', img: 'https://blackroom.boutique/wp-content/uploads/2025/05/the-weeknd-after-hours.webp', size: 'small', price: '$900' },
-    { id: 4, title: 'Folklore', img: 'https://m.media-amazon.com/images/I/A1Q6XGXmIFL.jpg', size: 'small', price: '$880' },
-    { id: 5, title: 'Tyler', img: 'https://m.media-amazon.com/images/I/71PN0lh-g9L._UF1000,1000_QL80_.jpg', size: 'small', price: '$750' },
-    { id: 9, title: 'Olivia Rodrigo', img: 'https://resources.sanborns.com.mx/imagenes-sanborns-ii/1200/602438106417.jpg', size: 'small', price: '$780' },
-
-    // --- BLOQUE 2 ---
-    { id: 6, title: 'Elvis Presley', img: 'https://m.media-amazon.com/images/I/610YiLKkTKL._UF1000,1000_QL80_.jpg', size: 'big', price: '$950' },
-    { id: 13, title: 'Lana Del Rey', img: 'https://m.media-amazon.com/images/I/71tNTXwwWFL.jpg', size: 'normal', price: '$950' },
-    { id: 11, title: 'Arctic Monkeys', img: 'https://m.media-amazon.com/images/I/619sk-bZaQL._UF1000,1000_QL80_.jpg', size: 'normal', price: '$810' },
-    { id: 14, title: 'Shaggy', img: 'https://m.media-amazon.com/images/I/71+KUlo1tdL._UF1000,1000_QL80_.jpg', size: 'small', price: '$600' },
-    
-    // --- BLOQUE 3 ---
-    { id: 19, title: 'Alex Warren', img: 'https://www.baba.es/53844-large_default/alex-warren-you-ll-be-alright-kid-2-lp-vinilo-white.jpg', size: 'normal', price: '$680' },
-    { id: 18, title: 'Kendrick Lamar', img: 'https://m.media-amazon.com/images/I/61MWIe1BzwL._UF1000,1000_QL80_.jpg', size: 'normal', price: '$890' },
-    { id: 17, title: 'Michael Jackson', img: 'https://m.media-amazon.com/images/I/91YlTtiGi0L.jpg', size: 'small', price: '$1200' },
-    { id: 12, title: 'AC/DC', img: 'https://m.media-amazon.com/images/I/71s6glEqRyL._UF1000,1000_QL80_.jpg', size: 'small', price: '$890' },
-    { id: 7, title: 'Justin Bieber', img: 'https://m.media-amazon.com/images/I/71CXHV8DFRL._UF1000,1000_QL80_.jpg', size: 'small', price: '$700' },
+const bestSellers: VinylProduct[] = [
+    { id: 1, title: 'Ray Charles', img: 'https://m.media-amazon.com/images/I/61n2vSsWpFL._UF1000,1000_QL80_.jpg', price: '$850' },
+    { id: 2, title: 'Hozier', img: 'https://m.media-amazon.com/images/I/81bOMm6FSjL._UF1000,1000_QL80_.jpg', price: '$720' },
+    { id: 3, title: 'The Weeknd', img: 'https://blackroom.boutique/wp-content/uploads/2025/05/the-weeknd-after-hours.webp', price: '$900' },
+    { id: 4, title: 'Folklore', img: 'https://m.media-amazon.com/images/I/A1Q6XGXmIFL.jpg', price: '$880' },
+    { id: 5, title: 'Tyler', img: 'https://m.media-amazon.com/images/I/71PN0lh-g9L._UF1000,1000_QL80_.jpg', price: '$750' },
+    { id: 9, title: 'Olivia Rodrigo', img: 'https://resources.sanborns.com.mx/imagenes-sanborns-ii/1200/602438106417.jpg', price: '$780' },
+    { id: 6, title: 'Elvis Presley', img: 'https://m.media-amazon.com/images/I/610YiLKkTKL._UF1000,1000_QL80_.jpg', price: '$950' },
+    { id: 13, title: 'Lana Del Rey', img: 'https://m.media-amazon.com/images/I/71tNTXwwWFL.jpg', price: '$950' },
+    { id: 11, title: 'Arctic Monkeys', img: 'https://m.media-amazon.com/images/I/619sk-bZaQL._UF1000,1000_QL80_.jpg', price: '$810' },
+    { id: 14, title: 'Shaggy', img: 'https://m.media-amazon.com/images/I/71+KUlo1tdL._UF1000,1000_QL80_.jpg', price: '$600' },
+    { id: 19, title: 'Alex Warren', img: 'https://www.baba.es/53844-large_default/alex-warren-you-ll-be-alright-kid-2-lp-vinilo-white.jpg', price: '$680' },
+    { id: 18, title: 'Kendrick Lamar', img: 'https://m.media-amazon.com/images/I/61MWIe1BzwL._UF1000,1000_QL80_.jpg', price: '$890' },
+    { id: 17, title: 'Michael Jackson', img: 'https://m.media-amazon.com/images/I/91YlTtiGi0L.jpg', price: '$1200' },
+    { id: 12, title: 'AC/DC', img: 'https://m.media-amazon.com/images/I/71s6glEqRyL._UF1000,1000_QL80_.jpg', price: '$890' },
+    { id: 7, title: 'Justin Bieber', img: 'https://m.media-amazon.com/images/I/71CXHV8DFRL._UF1000,1000_QL80_.jpg', price: '$700' },
+    { id: 16, title: 'Lorde', img: 'https://blackroom.boutique/wp-content/uploads/2024/01/1706042283.jpeg', price: '$770' },
   ];
 
-  const getSizeClasses = (size: string) => {
-    // Usamos col-span y aspect-square para forzar cuadrados perfectos
-    switch (size) {
-      case 'big':
-        // 3x3 en desktop, 2x2 en tablet
-        return 'col-span-1 row-span-1 md'; 
-      case 'normal':
-        // 2x2 en desktop
-        return 'col-span-2 row-span-2 md'; 
-      case 'small':
-      default:
-        // 1x1 siempre
-        return 'col-span-1 row-span-1'; 
-    }
-  };
+  
+  const galleryImages = bestSellers.map((disc) => ({
+    src: disc.img,
+    alt: `${disc.title} - ${disc.price}` // Usamos el alt para guardar info extra
+  }));
 
 const catFilters = ["All", "Rock", "Pop", "Jazz", "Indie", "Audio", "Accessories", "Sale"];
 
@@ -126,6 +123,51 @@ const faqData = [
 
 // --- COMPONENTES AUXILIARES ---
 
+const BentoItem = ({ title, value, icon: Icon, delay = 0, className = "" }: BentoItemProps) => (
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6, delay }}
+      className={`relative p-8 border border-[#333] hover:border-[#e3a643] transition-colors duration-500 group bg-[#1a1a1a]/50 backdrop-blur-sm flex flex-col justify-between h-64 ${className}`}
+    >
+      <div className="flex justify-between items-start">
+        <span className="text-sm text-gray-400 font-poppins tracking-wider uppercase">{title}</span>
+        {Icon && <Icon className="text-[#e3a643] opacity-50 group-hover:opacity-100 transition-opacity" size={20} />}
+      </div>
+      <div>
+        <h3 className="text-6xl md:text-7xl font-oswald font-bold text-white group-hover:text-[#e3a643] transition-colors duration-300">
+          {value}
+        </h3>
+      </div>
+      <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+         <div className="w-8 h-8 rounded-full border border-[#e3a643] flex items-center justify-center">
+           <ArrowRight size={14} className="text-[#e3a643]" />
+         </div>
+      </div>
+    </motion.div>
+  );
+
+  const RevealText = ({ text, className = "", delay = 0 }: RevealTextProps) => {
+    const words = text.split(" ");
+    return (
+      <motion.div className={`inline-block overflow-hidden ${className}`} initial="hidden" whileInView="visible" viewport={{ once: true }}>
+        {words.map((word, i) => (
+          <motion.span
+            key={i}
+            className="inline-block mr-2"
+            variants={{
+              hidden: { y: "100%" },
+              visible: { y: 0, transition: { duration: 0.5, delay: delay + i * 0.05, ease: [0.33, 1, 0.68, 1] } }
+            }}
+          >
+            {word}
+          </motion.span>
+        ))}
+      </motion.div>
+    );
+  };
+  
 const Navbar = ({ navigateTo, active }: { navigateTo: (v: string) => void, active: string }) => (
   <header className="flex items-center mb-10 w-full z-50">
     <img src={logoEMW} alt="EMW" className="w-20 h-20 object-contain mr-12 cursor-pointer" onClick={() => navigateTo('home')} />
@@ -187,13 +229,16 @@ const HomeView = ({ navigateTo, onProductSelect }: ViewProps) => (
       <div className="w-1/2 bg-[#161616] text-white p-12 flex flex-col relative z-10">
         <Navbar navigateTo={navigateTo} active="home" />
         <div className="mt-20">
-          <h1 className="text-[5rem] font-m-plus leading-[1.1] uppercase font-normal tracking-wide mb-5">
-            Electric<br/>Media Wax
-          </h1>
-          <div className="w-36 h-1 bg-[#bfa065] mb-8"></div>
-          <p className="font-poppins text-base text-[#cccccc] max-w-md font-light leading-relaxed">
-            En Electric Media Wax celebramos el sonido auténtico. Somos una tienda dedicada a los vinilos, equipos de audio y ediciones especiales...
-          </p>
+          <motion.div initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }}>
+            <h1 className="text-[clamp(5rem,15vw,8rem)] leading-[0.85] font-oswald font-bold uppercase tracking-tighter">
+              <span className="block stroke-text transition-all duration-500 cursor-default">Electric</span>
+              <span className="block text-[#e3a643]">Media Wax.</span>
+            </h1>
+          </motion.div>
+          <div className="w-60 h-1 bg-[#bfa065] mb-8 mt-10"></div>
+          <div className="mt-12 max-w-md border-l-2 border-[#e3a643] pl-6">
+            <RevealText text="At Electric Media Wax, we celebrate authentic sound. We're a shop dedicated to vinyl records, audio equipment, and special editions..." className="text-xl font-light text-gray-300" />
+          </div>
         </div>
       </div>
 
@@ -206,9 +251,15 @@ const HomeView = ({ navigateTo, onProductSelect }: ViewProps) => (
         {/* VINILO CENTRAL (CSS Personalizado en estilo global) */}
         <div className="vinyl-record"></div>
 
-        <div className="absolute right-[160px] top-[40%] transform -translate-y-[40%] rotate-180 writing-vertical-rl text-[3rem] font-m-plus uppercase tracking-wide text-black z-0">
-          All Type of Music
-        </div>
+        <TextType
+          text={["ALL TYPE OF MUSIC", "VINYL RECORDS", "AUDIO GEAR"]} // Puedes poner solo uno o varios para rotar
+          className="absolute right-[160px] top-[40%] transform -translate-y-[40%] rotate-180 writing-vertical-rl text-[3rem] font-m-plus uppercase tracking-wide text-black z-0"
+          typingSpeed={100}
+          deletingSpeed={50}
+          pauseDuration={2000}
+          cursorCharacter="|" // En texto vertical, el guion bajo suele verse mejor que la barra |
+          loop={true}
+        />
 
         {/* Barra inferior decorativa */}
       </div>
@@ -251,35 +302,32 @@ const HomeView = ({ navigateTo, onProductSelect }: ViewProps) => (
     </div>
 
     {/* BEST SELLERS */}
-    <div className="w-full bg-[#e3a643] py-20 px-[5%] flex flex-col items-center">
+    <div className="w-full bg-[#e3a643] flex flex-col items-center">
       <div className="text-center mb-12 border-b-4 border-white pb-2 inline-block">
-        <h2 className="font-m-plus text-5xl text-white uppercase font-normal">Best Sellers</h2>
+        <h2 className="font-m-plus text-5xl text-white uppercase font-normal"><br></br>Best Sellers</h2>
       </div>
       
       {/* Grid de 6 columnas para permitir escalas de 1, 2 y 3 unidades */}
-      <div className="grid grid-cols-2 md:grid-cols-6 gap-2 w-full max-w-[1700px] grid-flow-dense">
-        {bestSellers.map((item) => (
-          <div 
-            key={item.id} 
-            // 'aspect-square' es la clave aquí: fuerza a que el alto sea igual al ancho
-            className={`relative group overflow-hidden cursor-pointer bg-gray-800 aspect-square ${getSizeClasses(item.size)}`}
-          >
-            <img 
-              src={item.img} 
-              alt={item.title} 
-              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
-            />
-            
-            <div className="absolute bottom-0 left-0 right-0 bg-black/70 translate-y-full group-hover:translate-y-0 transition-transform duration-300 p-3 flex flex-col justify-center items-center h-1/3">
-              <span className="text-white font-bold uppercase tracking-wide text-center text-sm md:text-base">{item.title}</span>
-              <span className="text-[#E8A646] font-bold mt-1">{item.price}</span>
-            </div>
-          </div>
-        ))}
+      {/* Contenedor de la Galería */}
+      <div className="relative w-full h-screen">
+        <DomeGallery 
+          images={galleryImages}
+          // Props personalizadas
+          overlayBlurColor="#E8A646"
+          grayscale={false}
+          segments={50}    // MÁS DENSO: Aumenta de 35 a 50 (o 60) para tener muchos azulejos pequeños.
+          fit={1}       // MÁS ZOOM: Acerca la esfera a la cámara (valor entre 0.1 y 1).
+          minRadius={900}  // RADIO MÍNIMO GIGANTE: Asegura que nunca se vea pequeña.
+          maxRadius={2000}
+          openedImageWidth="400px"
+          openedImageHeight="400px"
+          imageBorderRadius="4px" // Cuadrados tipo portada de disco
+          openedImageBorderRadius="8px"
+        />
       </div>
     </div>
 
-    {/* MONTHLY DEALS */}
+    {/* MONTHLY DEALS
     <div className="w-full bg-[#161616] py-24 px-[10%] flex justify-center items-center flex-wrap gap-12">
       <img src={hedgehogImg} alt="Hedgehog" className="w-[350px] object-contain" />
       <div className="bg-[#e3a643] border-[3px] border-[#1a1a1a] rounded-3xl p-10 text-center relative shadow-[10px_10px_0px_#521519,20px_20px_0px_#365f6b]">
@@ -287,7 +335,7 @@ const HomeView = ({ navigateTo, onProductSelect }: ViewProps) => (
           20% off the <br/>entire store
         </h3>
       </div>
-    </div>
+    </div> */}
 
     <Footer />
   </motion.div>
@@ -303,12 +351,15 @@ const CatalogueView = ({ navigateTo, onProductSelect }: ViewProps) => (
     {/* HERO CATALOGUE */}
     <div className="flex flex-wrap justify-between items-center px-[5%] py-12 gap-10 w-full">
         <div className="flex-1 min-w-[300px]">
-            <h1 className="font-m-plus text-[4rem] leading-[1.1] uppercase mb-5">
-                Discover <span className="text-[#e3a643]">Vinyls</span><br/>and Audio Gear
+          <motion.div initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }}>
+            <h1 className="text-[clamp(5rem,15vw,12rem)] leading-[0.85] font-oswald font-bold uppercase tracking-tighter">
+              <span className="block stroke-text transition-all duration-500 cursor-default">Discover</span>
+              <span className="block text-[#e3a643]">Vinyls.</span>
             </h1>
-            <p className="font-poppins text-[#ccc] max-w-lg mb-8 font-light">
-                Explora nuestra colección curada de los mejores sonidos analógicos.
-            </p>
+          </motion.div>
+          <div className="mt-12 max-w-md border-l-2 border-[#e3a643] pl-6">
+            <RevealText text="Explore our curated collection of the best analog sounds." className="text-xl font-light text-gray-300" />
+          </div><br></br>
             <div className="flex gap-2 bg-[#222] p-1 rounded-full max-w-md border border-[#333]">
                 <input type="text" placeholder="Search..." className="bg-transparent border-none text-white px-5 py-2 flex-1 outline-none font-poppins" />
                 <button className="bg-[#e3a643] text-black px-6 py-2 rounded-full font-bold hover:bg-white transition-colors">Search</button>
@@ -382,7 +433,7 @@ const CatalogueView = ({ navigateTo, onProductSelect }: ViewProps) => (
 
 const ProductDetailView = ({ product, onBack }: { product: Product; onBack: () => void }) => (
   <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="min-h-screen bg-[#161616] text-white pt-32 px-[10%] pb-20 flex flex-col w-full w-[1700px] mx-auto">
-    <button onClick={onBack} className="flex items-center gap-2 text-[#aaa] hover:text-white mb-8 transition-colors font-poppins w-fit">
+    <button onClick={onBack} className="flex items-center gap-2 text-[#aaa] mb-8 transition-colors font-poppins w-fit">
         <ArrowLeft size={20}/> Volver
     </button>
     
@@ -433,51 +484,6 @@ const AboutView = ({ navigateTo }: ViewProps) => {
   const { scrollYProgress } = useScroll();
   const y = useTransform(scrollYProgress, [0, 1], [0, -50]);
 
-  const RevealText = ({ text, className = "", delay = 0 }: RevealTextProps) => {
-    const words = text.split(" ");
-    return (
-      <motion.div className={`inline-block overflow-hidden ${className}`} initial="hidden" whileInView="visible" viewport={{ once: true }}>
-        {words.map((word, i) => (
-          <motion.span
-            key={i}
-            className="inline-block mr-2"
-            variants={{
-              hidden: { y: "100%" },
-              visible: { y: 0, transition: { duration: 0.5, delay: delay + i * 0.05, ease: [0.33, 1, 0.68, 1] } }
-            }}
-          >
-            {word}
-          </motion.span>
-        ))}
-      </motion.div>
-    );
-  };
-
-  const BentoItem = ({ title, value, icon: Icon, delay = 0, className = "" }: BentoItemProps) => (
-    <motion.div 
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.6, delay }}
-      className={`relative p-8 border border-[#333] hover:border-[#e3a643] transition-colors duration-500 group bg-[#1a1a1a]/50 backdrop-blur-sm flex flex-col justify-between h-64 ${className}`}
-    >
-      <div className="flex justify-between items-start">
-        <span className="text-sm text-gray-400 font-poppins tracking-wider uppercase">{title}</span>
-        {Icon && <Icon className="text-[#e3a643] opacity-50 group-hover:opacity-100 transition-opacity" size={20} />}
-      </div>
-      <div>
-        <h3 className="text-6xl md:text-7xl font-oswald font-bold text-white group-hover:text-[#e3a643] transition-colors duration-300">
-          {value}
-        </h3>
-      </div>
-      <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-         <div className="w-8 h-8 rounded-full border border-[#e3a643] flex items-center justify-center">
-           <ArrowRight size={14} className="text-[#e3a643]" />
-         </div>
-      </div>
-    </motion.div>
-  );
-
   const BrandMarquee = () => {
     const brands = ["SONY", "MARSHALL", "FENDER", "TECHNICS", "PIONEER", "ROLAND", "KORG", "YAMAHA"];
     return (
@@ -507,7 +513,7 @@ const AboutView = ({ navigateTo }: ViewProps) => {
         <div className="w-full md:w-1/2 flex flex-col justify-center z-10">
           <motion.div initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }}>
             <h1 className="text-[clamp(5rem,15vw,12rem)] leading-[0.85] font-oswald font-bold uppercase tracking-tighter">
-              <span className="block stroke-text hover:text-white transition-all duration-500 cursor-default">About</span>
+              <span className="block stroke-text transition-all duration-500 cursor-default">About</span>
               <span className="block text-[#e3a643]">Us.</span>
             </h1>
           </motion.div>
@@ -615,13 +621,13 @@ const FAQView = ({ navigateTo }: ViewProps) => {
         
         {/* Header Gigante tipo "Editorial" */}
         <header className="pt-10 pb-20 border-b border-[#333] mb-12">
-           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-             <span className="block text-[#e3a643] font-mono text-sm mb-2 tracking-widest">CUSTOMER SUPPORT</span>
-             <h1 className="text-[clamp(4rem,10vw,10rem)] leading-[0.8] font-oswald font-bold uppercase tracking-tighter">
-               Help <br/>
-               <span className="text-[#e3a643]">Center.</span>
-             </h1>
-           </motion.div>
+           <motion.div initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }}>
+            <h1 className="text-[clamp(5rem,15vw,12rem)] leading-[0.85] font-oswald font-bold uppercase tracking-tighter">
+              <span className="block text-[#e3a643] font-mono text-sm mb-2 tracking-widest">CUSTOMER SUPPORT</span>
+              <span className="block stroke-text transition-all duration-500 cursor-default">Help</span>
+              <span className="block text-[#e3a643]">Center.</span>
+            </h1>
+          </motion.div>
         </header>
 
         {/* Layout Grid: Izquierda Contacto / Derecha Lista FAQ */}
@@ -757,7 +763,7 @@ const App = () => {
       
       <div className="w-full min-h-screen bg-[#161616] flex justify-center">
         {/* Aquí está el wrapper principal que centra todo el contenido en 1700px */}
-        <div className="w-full w-[1710px]">
+        <div className="w-full w-[1711px]">
           {renderContent()}
         </div>
       </div>

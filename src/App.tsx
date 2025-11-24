@@ -211,7 +211,7 @@ const Footer = () => (
 // --- VISTAS PRINCIPALES ---
 
 const HomeView = ({ navigateTo, onProductSelect }: ViewProps) => (
-  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col w-full w-[1700px] mx-auto overflow-hidden bg-[#161616]">
+  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col w-full mx-auto overflow-hidden bg-[#161616]">
     
     {/* HERO SECTION SPLIT */}
     <div className="relative h-screen w-full flex overflow-hidden">
@@ -226,9 +226,9 @@ const HomeView = ({ navigateTo, onProductSelect }: ViewProps) => (
       {/* IZQUIERDA OSCURA */}
       <div className="w-1/2 bg-[#161616] text-white p-12 flex flex-col relative z-10">
         <Navbar navigateTo={navigateTo} active="home" />
-        <div className="mt-20">
+        <div className="mt-1">
           <motion.div initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }}>
-            <h1 className="text-[clamp(5rem,15vw,8rem)] leading-[0.85] font-oswald font-bold uppercase tracking-tighter">
+            <h1 className="text-[clamp(5rem,15vw,6rem)] leading-[0.85] font-oswald font-bold uppercase tracking-tighter">
               <span className="block stroke-text transition-all duration-500 cursor-default">Electric</span>
               <span className="block text-[#e3a643]">Media Wax.</span>
             </h1>
@@ -251,7 +251,7 @@ const HomeView = ({ navigateTo, onProductSelect }: ViewProps) => (
 
         <TextType
           text={["ALL TYPE OF MUSIC", "VINYL RECORDS", "AUDIO GEAR"]} // Puedes poner solo uno o varios para rotar
-          className="absolute right-[160px] top-[40%] transform -translate-y-[40%] rotate-180 writing-vertical-rl text-[3rem] font-m-plus uppercase tracking-wide text-black z-0"
+          className="absolute right-[160px] top-[40%] transform -translate-y-[40%] rotate-180 writing-vertical-rl text-[2.5rem] font-m-plus uppercase tracking-wide text-black z-0"
           typingSpeed={100}
           deletingSpeed={50}
           pauseDuration={2000}
@@ -260,8 +260,9 @@ const HomeView = ({ navigateTo, onProductSelect }: ViewProps) => (
         />
 
         {/* Barra inferior decorativa */}
-      </div>
-    <div className="absolute bottom-0 left-0 w-[200%] h-20 bg-[#bfa065] z-30"></div>
+        
+        </div>
+        <div className="absolute bottom-0 left-0 w-full h-20 bg-[#bfa065] z-30"></div>
     </div>
 
     {/* NEW ARRIVALS */}
@@ -340,7 +341,7 @@ const HomeView = ({ navigateTo, onProductSelect }: ViewProps) => (
 );
 
 const CatalogueView = ({ navigateTo, onProductSelect }: ViewProps) => (
-  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="min-h-screen bg-[#161616] text-white font-poppins flex flex-col w-full w-[1700px] mx-auto">
+  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="min-h-screen bg-[#161616] text-white font-poppins flex flex-col w-full mx-auto">
     
     <div className="w-1/2 bg-[#161616] text-white p-12 flex flex-col relative z-10">
         <Navbar navigateTo={navigateTo} active="catalogue" />
@@ -430,7 +431,7 @@ const CatalogueView = ({ navigateTo, onProductSelect }: ViewProps) => (
 );
 
 const ProductDetailView = ({ product, onBack }: { product: Product; onBack: () => void }) => (
-  <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="min-h-screen bg-[#161616] text-white pt-32 px-[10%] pb-20 flex flex-col w-full w-[1700px] mx-auto">
+  <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="min-h-screen bg-[#161616] text-white pt-32 px-[10%] pb-20 flex flex-col w-full mx-auto">
     <button onClick={onBack} className="flex items-center gap-2 text-[#aaa] mb-8 transition-colors font-poppins w-fit">
         <ArrowLeft size={20}/> Volver
     </button>
@@ -502,7 +503,7 @@ const AboutView = ({ navigateTo }: ViewProps) => {
   };
 
   return (
-    <div className="min-h-screen bg-[#161616] text-white overflow-x-hidden font-poppins flex flex-col w-full w-[1700px] mx-auto">
+    <div className="min-h-screen bg-[#161616] text-white overflow-x-hidden font-poppins flex flex-col w-full mx-auto">
       <div className="w-1/2 bg-[#161616] text-white p-12 flex flex-col relative z-10">
         <Navbar navigateTo={navigateTo} active="about" />
       </div>
@@ -610,7 +611,7 @@ const FAQView = ({ navigateTo }: ViewProps) => {
   const [openIndex, setOpenIndex] = useState<number | null>(0); // El primero abierto por defecto
 
   return (
-    <div className="min-h-screen bg-[#161616] text-white overflow-x-hidden font-poppins flex flex-col w-full w-[1700px] mx-auto">
+    <div className="min-h-screen bg-[#161616] text-white overflow-x-hidden font-poppins flex flex-col w-full">
       <div className="w-1/2 bg-[#161616] text-white p-12 flex flex-col relative z-10">
         <Navbar navigateTo={navigateTo} active="faq" />
       </div>
@@ -726,8 +727,8 @@ const App = () => {
           top: 50%;
           left: -30px;
           transform: translateY(-60%);
-          width: 550px;
-          height: 550px;
+          width: 480px;
+          height: 480px;
           border-radius: 50%;
           background: radial-gradient(circle at center, #d4b675 0%, #d4b675 25%, #111 26%, #111 27%, #222 28%, #111 30%, #222 32%, #111 34%, #222 36%, #111 38%, #222 40%, #111 45%, #000 100%);
           box-shadow: 10px 10px 30px rgba(0,0,0,0.3);
@@ -761,7 +762,7 @@ const App = () => {
       
       <div className="w-full min-h-screen bg-[#161616] flex justify-center">
         {/* Aquí está el wrapper principal que centra todo el contenido en 1700px */}
-        <div className="w-full w-[1920px]">
+        <div className="max-w-[1900px] w-screen min-h-screen overflow-x-hidden">
           {renderContent()}
         </div>
       </div>

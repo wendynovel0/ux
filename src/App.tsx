@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
-import { useGesture } from '@use-gesture/react';
 import { 
   Search, Facebook, Youtube, Twitter, Instagram, Globe, 
   ArrowLeft, Heart, Disc, Mic2, Radio, ArrowRight, ChevronRight, 
-  Plus, Minus, Mail, Phone
+  Plus, Mail, Phone
 } from 'lucide-react';
 import type { LucideIcon as LucideIconType } from 'lucide-react';
 import './App.css';

@@ -30,7 +30,7 @@ interface Product {
   image?: string;
   img?: string;
   description?: string;
-  size?: string;
+  size: 'big' | 'normal' | 'small';
 }
 
 interface ViewProps {
@@ -71,17 +71,43 @@ const products = [
 ];
 
 const bestSellers = [
-  { id: 1, img: 'https://m.media-amazon.com/images/I/61n2vSsWpFL._UF1000,1000_QL80_.jpg', size: 'col-span-2 row-span-2', title: 'Ray Charles', price: '$850' },
-  { id: 2, img: 'https://m.media-amazon.com/images/I/81bOMm6FSjL._UF1000,1000_QL80_.jpg', size: '', title: 'Hozier', price: '$720' },
-  { id: 3, img: 'https://i.scdn.co/image/ab67616d0000b2734718e28d24527d9774635ded', size: '', title: 'The Weeknd', price: '$900' },
-  { id: 4, img: 'https://m.media-amazon.com/images/I/A1Q6XGXmIFL.jpg', size: '', title: 'Folklore', price: '$880' },
-  { id: 5, img: 'https://m.media-amazon.com/images/I/71PN0lh-g9L._UF1000,1000_QL80_.jpg', size: '', title: 'Tyler', price: '$750' },
-  { id: 6, img: 'https://m.media-amazon.com/images/I/610YiLKkTKL._UF1000,1000_QL80_.jpg', size: 'col-span-2 row-span-2', title: 'Elvis Presley', price: '$950' },
-  { id: 7, title: 'Justin Bieber', img: 'https://m.media-amazon.com/images/I/71CXHV8DFRL._UF1000,1000_QL80_.jpg', size: '', price: '$700' },
-  { id: 8, title: 'Lady Gaga', img: 'https://m.media-amazon.com/images/I/612EEsK+nFL._UF1000,1000_QL80_.jpg', size: 'col-span-2', price: '$820' },
-  { id: 9, title: 'Olivia Rodrigo', img: 'https://upload.wikimedia.org/wikipedia/en/0/03/Olivia_Rodrigo_-_Sour.png', size: 'row-span-2', price: '$780' },
-  { id: 10, title: 'Katy Perry', img: 'https://www.musiclab.mx/cdn/shop/files/81f4brSLLqL._UF1000_1000_QL80.jpg?v=1706823977', size: '', price: '$650' },
-];
+    // --- BLOQUE 1 ---
+    { id: 1, title: 'Ray Charles', img: 'https://m.media-amazon.com/images/I/61n2vSsWpFL._UF1000,1000_QL80_.jpg', size: 'big', price: '$850' },
+    { id: 2, title: 'Hozier', img: 'https://m.media-amazon.com/images/I/81bOMm6FSjL._UF1000,1000_QL80_.jpg', size: 'normal', price: '$720' },
+    { id: 3, title: 'The Weeknd', img: 'https://blackroom.boutique/wp-content/uploads/2025/05/the-weeknd-after-hours.webp', size: 'small', price: '$900' },
+    { id: 4, title: 'Folklore', img: 'https://m.media-amazon.com/images/I/A1Q6XGXmIFL.jpg', size: 'small', price: '$880' },
+    { id: 5, title: 'Tyler', img: 'https://m.media-amazon.com/images/I/71PN0lh-g9L._UF1000,1000_QL80_.jpg', size: 'small', price: '$750' },
+    { id: 9, title: 'Olivia Rodrigo', img: 'https://resources.sanborns.com.mx/imagenes-sanborns-ii/1200/602438106417.jpg', size: 'small', price: '$780' },
+
+    // --- BLOQUE 2 ---
+    { id: 6, title: 'Elvis Presley', img: 'https://m.media-amazon.com/images/I/610YiLKkTKL._UF1000,1000_QL80_.jpg', size: 'big', price: '$950' },
+    { id: 13, title: 'Lana Del Rey', img: 'https://m.media-amazon.com/images/I/71tNTXwwWFL.jpg', size: 'normal', price: '$950' },
+    { id: 11, title: 'Arctic Monkeys', img: 'https://m.media-amazon.com/images/I/619sk-bZaQL._UF1000,1000_QL80_.jpg', size: 'normal', price: '$810' },
+    { id: 14, title: 'Shaggy', img: 'https://m.media-amazon.com/images/I/71+KUlo1tdL._UF1000,1000_QL80_.jpg', size: 'small', price: '$600' },
+    
+    // --- BLOQUE 3 ---
+    { id: 19, title: 'Alex Warren', img: 'https://www.baba.es/53844-large_default/alex-warren-you-ll-be-alright-kid-2-lp-vinilo-white.jpg', size: 'normal', price: '$680' },
+    { id: 18, title: 'Kendrick Lamar', img: 'https://m.media-amazon.com/images/I/61MWIe1BzwL._UF1000,1000_QL80_.jpg', size: 'normal', price: '$890' },
+    { id: 17, title: 'Michael Jackson', img: 'https://m.media-amazon.com/images/I/91YlTtiGi0L.jpg', size: 'small', price: '$1200' },
+    { id: 12, title: 'AC/DC', img: 'https://m.media-amazon.com/images/I/71s6glEqRyL._UF1000,1000_QL80_.jpg', size: 'small', price: '$890' },
+    { id: 7, title: 'Justin Bieber', img: 'https://m.media-amazon.com/images/I/71CXHV8DFRL._UF1000,1000_QL80_.jpg', size: 'small', price: '$700' },
+  ];
+
+  const getSizeClasses = (size: string) => {
+    // Usamos col-span y aspect-square para forzar cuadrados perfectos
+    switch (size) {
+      case 'big':
+        // 3x3 en desktop, 2x2 en tablet
+        return 'col-span-1 row-span-1 md'; 
+      case 'normal':
+        // 2x2 en desktop
+        return 'col-span-2 row-span-2 md'; 
+      case 'small':
+      default:
+        // 1x1 siempre
+        return 'col-span-1 row-span-1'; 
+    }
+  };
 
 const catFilters = ["All", "Rock", "Pop", "Jazz", "Indie", "Audio", "Accessories", "Sale"];
 
@@ -230,18 +256,24 @@ const HomeView = ({ navigateTo, onProductSelect }: ViewProps) => (
         <h2 className="font-m-plus text-5xl text-white uppercase font-normal">Best Sellers</h2>
       </div>
       
-      <div className="grid grid-cols-2 md:grid-cols-4 auto-rows-[150px] gap-3 w-full max-w-[1400px] grid-flow-dense">
-        {bestSellers.map((item, idx) => (
+      {/* Grid de 6 columnas para permitir escalas de 1, 2 y 3 unidades */}
+      <div className="grid grid-cols-2 md:grid-cols-6 gap-2 w-full max-w-[1700px] grid-flow-dense">
+        {bestSellers.map((item) => (
           <div 
             key={item.id} 
-            className={`relative overflow-hidden bg-black group cursor-pointer ${item.size}`}
-            onClick={() => onProductSelect && onProductSelect(item as Product)}
+            // 'aspect-square' es la clave aquí: fuerza a que el alto sea igual al ancho
+            className={`relative group overflow-hidden cursor-pointer bg-gray-800 aspect-square ${getSizeClasses(item.size)}`}
           >
             <img 
               src={item.img} 
               alt={item.title} 
-              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 group-hover:opacity-80" 
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
             />
+            
+            <div className="absolute bottom-0 left-0 right-0 bg-black/70 translate-y-full group-hover:translate-y-0 transition-transform duration-300 p-3 flex flex-col justify-center items-center h-1/3">
+              <span className="text-white font-bold uppercase tracking-wide text-center text-sm md:text-base">{item.title}</span>
+              <span className="text-[#E8A646] font-bold mt-1">{item.price}</span>
+            </div>
           </div>
         ))}
       </div>
@@ -262,9 +294,9 @@ const HomeView = ({ navigateTo, onProductSelect }: ViewProps) => (
 );
 
 const CatalogueView = ({ navigateTo, onProductSelect }: ViewProps) => (
-  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="min-h-screen bg-[#161616] text-white font-poppins pb-20 pt-10 flex flex-col w-full w-[1700px] mx-auto">
+  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="min-h-screen bg-[#161616] text-white font-poppins flex flex-col w-full w-[1700px] mx-auto">
     
-    <div className="px-[5%]">
+    <div className="w-1/2 bg-[#161616] text-white p-12 flex flex-col relative z-10">
         <Navbar navigateTo={navigateTo} active="catalogue" />
     </div>
 
@@ -467,7 +499,7 @@ const AboutView = ({ navigateTo }: ViewProps) => {
 
   return (
     <div className="min-h-screen bg-[#161616] text-white overflow-x-hidden font-poppins flex flex-col w-full w-[1700px] mx-auto">
-      <div className="px-[5%]">
+      <div className="w-1/2 bg-[#161616] text-white p-12 flex flex-col relative z-10">
         <Navbar navigateTo={navigateTo} active="about" />
       </div>
 
@@ -575,7 +607,7 @@ const FAQView = ({ navigateTo }: ViewProps) => {
 
   return (
     <div className="min-h-screen bg-[#161616] text-white overflow-x-hidden font-poppins flex flex-col w-full w-[1700px] mx-auto">
-      <div className="px-[5%]">
+      <div className="w-1/2 bg-[#161616] text-white p-12 flex flex-col relative z-10">
         <Navbar navigateTo={navigateTo} active="faq" />
       </div>
 
@@ -725,7 +757,7 @@ const App = () => {
       
       <div className="w-full min-h-screen bg-[#161616] flex justify-center">
         {/* Aquí está el wrapper principal que centra todo el contenido en 1700px */}
-        <div className="w-full w-[1700px]">
+        <div className="w-full w-[1710px]">
           {renderContent()}
         </div>
       </div>

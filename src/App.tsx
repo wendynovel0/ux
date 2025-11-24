@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useCallback, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import { useGesture } from '@use-gesture/react';
 import { 
@@ -15,7 +15,6 @@ import imgProd3 from './assets/64bafcc5-493d-4149-ae02-1fdde1098dad.png'
 import imgProd4 from './assets/7da44c53-0ed5-4118-8e91-01453464d4b7.png'
 import imgProd5 from './assets/bc082269-92f8-4d39-878a-ed2ddf2763c7.png'
 import imgProd6 from './assets/e6e506e7-fe71-442d-a88a-4184d5c31144.png'
-import hedgehogImg from './assets/Group 8.png'; 
 import './DomeGallery.css';
 import DomeGallery from './DomeGallery';
 import TextType from './TextType';
@@ -167,7 +166,7 @@ const BentoItem = ({ title, value, icon: Icon, delay = 0, className = "" }: Bent
       </motion.div>
     );
   };
-  
+
 const Navbar = ({ navigateTo, active }: { navigateTo: (v: string) => void, active: string }) => (
   <header className="flex items-center mb-10 w-full z-50">
     <img src={logoEMW} alt="EMW" className="w-20 h-20 object-contain mr-12 cursor-pointer" onClick={() => navigateTo('home')} />

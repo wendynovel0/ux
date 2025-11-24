@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState, createElement, useMemo, useCallback } from 'react';
-import { ElementType } from 'react';
+import type { ElementType } from "react";
 import { gsap } from 'gsap';
 import './TextType.css';
 
@@ -102,7 +102,7 @@ const TextType = ({
   useEffect(() => {
     if (!isVisible) return;
 
-    let timeout: NodeJS.Timeout;
+    let timeout: number;
 
     const currentText = textArray[currentTextIndex];
     const processedText = reverseMode ? currentText.split('').reverse().join('') : currentText;

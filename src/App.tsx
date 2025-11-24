@@ -761,7 +761,7 @@ const App = () => {
       
       <div className="w-full min-h-screen bg-[#161616] flex justify-center">
         {/* Aquí está el wrapper principal que centra todo el contenido en 1700px */}
-        <div className="w-full w-[1711px]">
+        <div className="w-full w-[1920px]">
           {renderContent()}
         </div>
       </div>

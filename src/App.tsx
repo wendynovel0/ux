@@ -190,7 +190,7 @@ const Navbar = ({ navigateTo, active }: NavbarProps) => {
   const items = ['Home', 'Catalogue', 'About', 'FAQ'];
 
   return (
-    <header className="flex items-center justify-between mb-10 w-full z-50 relative">
+    <header className="flex items-center gap-8 mb-10 w-full z-50 relative">
       
       {/* LOGO */}
       <img 

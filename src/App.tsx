@@ -3,7 +3,7 @@ import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
 import { 
   Search, Facebook, Youtube, Twitter, Instagram, Globe, 
   ArrowLeft, Heart, Disc, Mic2, Radio, ArrowRight, ChevronRight, 
-  Plus, Mail, Phone
+  Plus, Mail, Phone, Menu, X 
 } from 'lucide-react';
 import type { LucideIcon as LucideIconType } from 'lucide-react';
 import './App.css';
@@ -147,59 +147,120 @@ const BentoItem = ({ title, value, icon: Icon, delay = 0, className = "" }: Bent
   );
 
   const RevealText = ({ text, className = "", delay = 0 }: RevealTextProps) => {
-    const words = text.split(" ");
-    return (
-      <motion.div className={`inline-block overflow-hidden ${className}`} initial="hidden" whileInView="visible" viewport={{ once: true }}>
-        {words.map((word, i) => (
-          <motion.span
-            key={i}
-            className="inline-block mr-2"
-            variants={{
-              hidden: { y: "100%" },
-              visible: { y: 0, transition: { duration: 0.5, delay: delay + i * 0.05, ease: [0.33, 1, 0.68, 1] } }
-            }}
-          >
-            {word}
-          </motion.span>
-        ))}
-      </motion.div>
-    );
-  };
+  const words = text.split(" ");
 
-const Navbar = ({ navigateTo, active }: { navigateTo: (v: string) => void, active: string }) => (
-  <header className="flex items-center mb-10 w-full z-50">
-    <img src={logoEMW} alt="EMW" className="w-20 h-20 object-contain mr-12 cursor-pointer" onClick={() => navigateTo('home')} />
-    <nav>
-      <ul className="flex gap-8 list-none">
-        {['Home', 'Catalogue', 'About', 'FAQ'].map((item) => (
-          <li key={item}>
-            <button 
-              onClick={() => navigateTo(item.toLowerCase())}
-              className={`text-2xl uppercase font-oswald font-medium tracking-wider transition-colors hover:text-[#e3a643] ${active === item.toLowerCase() ? 'text-[#e3a643]' : 'text-white'}`}
+  return (
+    <motion.div 
+      className={`block md:overflow-hidden ${className}`}
+      initial="hidden" 
+      whileInView="visible" 
+      viewport={{ once: true }}
+    >
+      {words.map((word, i) => (
+        <motion.span
+          key={i}
+          className="inline-block mr-2"
+          variants={{
+            hidden: { y: "100%" },
+            visible: { 
+              y: 0, 
+              transition: { 
+                duration: 0.5, 
+                delay: delay + i * 0.05, 
+                ease: [0.33, 1, 0.68, 1] 
+              } 
+            }
+          }}
+        >
+          {word}
+        </motion.span>
+      ))}
+    </motion.div>
+  );
+};
+
+  type NavbarProps = {
+  navigateTo: (v: string) => void;
+  active: string;
+};
+
+const Navbar = ({ navigateTo, active }: NavbarProps) => {
+  const [open, setOpen] = useState(false);
+
+  const items = ['Home', 'Catalogue', 'About', 'FAQ'];
+
+  return (
+    <header className="flex items-center justify-between mb-10 w-full z-50 relative">
+      
+      {/* LOGO */}
+      <img 
+        src={logoEMW} 
+        alt="EMW" 
+        className="w-16 md:w-20 h-auto cursor-pointer" 
+        onClick={() => navigateTo('home')} 
+      />
+
+      {/* MENU DESKTOP */}
+      <nav className="hidden md:block">
+        <ul className="flex gap-8 list-none">
+          {items.map((item) => (
+            <li key={item}>
+              <button 
+                onClick={() => navigateTo(item.toLowerCase())}
+                className={`text-xl uppercase font-oswald tracking-wider transition-colors hover:text-[#e3a643] ${
+                  active === item.toLowerCase() ? 'text-[#e3a643]' : 'text-white'
+                }`}
+              >
+                {item}
+              </button>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      {/* BOTÓN MOBILE */}
+      <button 
+        className="md:hidden text-white"
+        onClick={() => setOpen(!open)}
+      >
+        {open ? <X size={28}/> : <Menu size={28}/>}
+      </button>
+
+      {/* MENU MOBILE */}
+      {open && (
+        <div className="absolute top-full left-0 w-full bg-[#161616] border-t border-[#333] flex flex-col items-center py-6 gap-6 md:hidden">
+          {items.map((item) => (
+            <button
+              key={item}
+              onClick={() => {
+                navigateTo(item.toLowerCase());
+                setOpen(false);
+              }}
+              className="text-xl uppercase font-oswald text-white hover:text-[#e3a643]"
             >
               {item}
             </button>
-          </li>
-        ))}
-      </ul>
-    </nav>
-  </header>
-);
+          ))}
+        </div>
+      )}
+    </header>
+  );
+};
 
 const Footer = () => (
-  <footer className="w-full bg-[#e3a643] py-8 px-12 flex justify-between items-center mt-auto">
-    <div className="flex gap-4">
+<footer className="w-full bg-[#e3a643] py-8 px-6 md:px-12 flex flex-col md:flex-row justify-between items-center gap-6 mt-auto text-center md:text-left">    
+<div className="flex gap-4 justify-center">
       <Facebook className="w-6 h-6 text-white cursor-pointer hover:scale-110 transition-transform" />
       <Youtube className="w-6 h-6 text-white cursor-pointer hover:scale-110 transition-transform" />
       <Twitter className="w-6 h-6 text-white cursor-pointer hover:scale-110 transition-transform" />
       <div className="w-6 h-6 rounded-full border-2 border-white flex items-center justify-center text-[10px] font-bold text-white cursor-pointer">Tk</div>
       <Instagram className="w-6 h-6 text-white cursor-pointer hover:scale-110 transition-transform" />
     </div>
-    <div className="flex gap-6">
+    <div className="flex gap-6 flex-wrap justify-center">
       <a href="#" className="text-white font-poppins text-sm hover:underline">Privacy politics</a>
       <a href="#" className="text-white font-poppins text-sm hover:underline">Terms and conditions</a>
     </div>
-    <div className="flex items-center gap-6">
+    <div className="flex items-center gap-6 justify-center">
       <div className="flex items-center gap-2 text-white font-poppins text-sm cursor-pointer">
         English <Globe size={16} />
       </div>
@@ -214,17 +275,16 @@ const HomeView = ({ navigateTo, onProductSelect }: ViewProps) => (
   <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col w-full mx-auto overflow-hidden bg-[#161616]">
     
     {/* HERO SECTION SPLIT */}
-    <div className="relative h-screen w-full flex overflow-hidden">
+    <div className="relative min-h-screen w-full flex flex-col md:flex-row overflow-visible md:overflow-hidden">      
       {/* FRANJAS DIAGONALES */}
-      <div className="absolute top-0 left-[40%] h-full flex transform -skew-x-[20deg] z-20 pointer-events-none">
-        <div className="h-full w-[90px] bg-[#365f6b]"></div>
+      <div className="hidden md:flex absolute top-0 left-[40%] h-full transform -skew-x-[20deg] z-20 pointer-events-none">        <div className="h-full w-[90px] bg-[#365f6b]"></div>
         <div className="h-full w-[90px] bg-[#521519]"></div>
         <div className="h-full w-[90px] bg-[#e3a643]"></div>
         <div className="h-full w-[90px] bg-[#c4a366]"></div>
       </div>
 
       {/* IZQUIERDA OSCURA */}
-      <div className="w-1/2 bg-[#161616] text-white p-12 flex flex-col relative z-10">
+      <div className="w-full md:w-1/2 bg-[#161616] text-white p-12 flex flex-col relative z-10">
         <Navbar navigateTo={navigateTo} active="home" />
         <div className="mt-1">
           <motion.div initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }}>
@@ -234,14 +294,14 @@ const HomeView = ({ navigateTo, onProductSelect }: ViewProps) => (
             </h1>
           </motion.div>
           <div className="w-60 h-1 bg-[#bfa065] mb-8 mt-10"></div>
-          <div className="mt-12 max-w-md border-l-2 border-[#e3a643] pl-6">
-            <RevealText text="At Electric Media Wax, we celebrate authentic sound. We're a shop dedicated to vinyl records, audio equipment, and special editions..." className="text-xl font-light text-gray-300" />
+          <div className="mt-12 w-full md:max-w-md border-l-2 border-[#e3a643] pl-4 md:pl-6">
+            <RevealText text="At Electric Media Wax, we celebrate authentic sound. We're a shop dedicated to vinyl records, audio equipment, and special editions..." className="text-sm md:text-xl font-light text-gray-300" />
           </div>
         </div>
       </div>
 
       {/* DERECHA CLARA */}
-      <div className="w-1/2 bg-[#fae8b6] relative flex flex-col justify-between">
+      <div className="w-full md:w-1/2 bg-[#161616] md:bg-[#fae8b6] relative flex flex-col justify-between">
         <div className="p-12 flex justify-end">
           <Search className="text-[#333] w-8 h-8 cursor-pointer" />
         </div>
@@ -249,8 +309,9 @@ const HomeView = ({ navigateTo, onProductSelect }: ViewProps) => (
         {/* VINILO CENTRAL (CSS Personalizado en estilo global) */}
         <div className="vinyl-record"></div>
 
+<div className="hidden md:block">
         <TextType
-          text={["ALL TYPE OF MUSIC", "VINYL RECORDS", "AUDIO GEAR"]} // Puedes poner solo uno o varios para rotar
+          text={["ALL TYPE OF MUSIC", "VINYL RECORDS", "AUDIO GEAR"]}
           className="absolute right-[160px] top-[40%] transform -translate-y-[40%] rotate-180 writing-vertical-rl text-[2.5rem] font-m-plus uppercase tracking-wide text-black z-0"
           typingSpeed={100}
           deletingSpeed={50}
@@ -258,7 +319,7 @@ const HomeView = ({ navigateTo, onProductSelect }: ViewProps) => (
           cursorCharacter="|" // En texto vertical, el guion bajo suele verse mejor que la barra |
           loop={true}
         />
-
+</div>
         {/* Barra inferior decorativa */}
         
         </div>
@@ -343,7 +404,7 @@ const HomeView = ({ navigateTo, onProductSelect }: ViewProps) => (
 const CatalogueView = ({ navigateTo, onProductSelect }: ViewProps) => (
   <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="min-h-screen bg-[#161616] text-white font-poppins flex flex-col w-full mx-auto">
     
-    <div className="w-1/2 bg-[#161616] text-white p-12 flex flex-col relative z-10">
+    <div className="w-full md:w-1/2 bg-[#161616] text-white p-12 flex flex-col relative z-10">
         <Navbar navigateTo={navigateTo} active="catalogue" />
     </div>
 
@@ -504,7 +565,7 @@ const AboutView = ({ navigateTo }: ViewProps) => {
 
   return (
     <div className="min-h-screen bg-[#161616] text-white overflow-x-hidden font-poppins flex flex-col w-full mx-auto">
-      <div className="w-1/2 bg-[#161616] text-white p-12 flex flex-col relative z-10">
+      <div className="w-full md:w-1/2 bg-[#161616] text-white p-12 flex flex-col relative z-[100]">
         <Navbar navigateTo={navigateTo} active="about" />
       </div>
 
@@ -612,7 +673,7 @@ const FAQView = ({ navigateTo }: ViewProps) => {
 
   return (
     <div className="min-h-screen bg-[#161616] text-white overflow-x-hidden font-poppins flex flex-col w-full">
-      <div className="w-1/2 bg-[#161616] text-white p-12 flex flex-col relative z-10">
+      <div className="w-full md:w-1/2 bg-[#161616] text-white p-12 flex flex-col relative z-10">
         <Navbar navigateTo={navigateTo} active="faq" />
       </div>
 
@@ -733,7 +794,7 @@ const App = () => {
           background: radial-gradient(circle at center, #d4b675 0%, #d4b675 25%, #111 26%, #111 27%, #222 28%, #111 30%, #222 32%, #111 34%, #222 36%, #111 38%, #222 40%, #111 45%, #000 100%);
           box-shadow: 10px 10px 30px rgba(0,0,0,0.3);
           z-index: 5;
-          display: flex;
+          display: none;
           align-items: center;
           justify-content: center;
         }
@@ -744,6 +805,11 @@ const App = () => {
           background-color: #f5f5f5;
           border-radius: 50%;
           border: 1px solid #aaa;
+        }
+          @media (min-width: 768px) {
+          .vinyl-record {
+            display: flex;
+          }
         }
         
         .writing-vertical-rl {
